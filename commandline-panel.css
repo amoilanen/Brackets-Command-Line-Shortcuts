@@ -1,0 +1,25 @@
+.commandline-panel {
+  position: relative;
+  background-color: #333;
+  height: 200px;
+  overflow-y: auto;
+}
+
+.commandline-panel .commandline-info {
+  color: #CCCC00;
+  margin-bottom: 16px;
+  margin-top: 16px;
+}
+
+.commandline-panel-content {
+  color: #FFFFFF;
+  font-size: 16px;
+  padding: 10px;
+}
+
+.commandline-panel .close {
+  font-size: 32px;
+  padding: 10px;
+  position: fixed;
+  right: 48px;
+}
