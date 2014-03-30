@@ -1,4 +1,4 @@
-define(function (require, exports) {
+define(function (require, exports, module) {
 
   var DocumentManager = brackets.getModule("document/DocumentManager");
   var FileUtils = brackets.getModule("file/FileUtils");

@@ -1,13 +1,13 @@
 [
   {
     "name": "Build 'grunt-prepr' project",
-    "dir": "C:\\Users\\Anton\\Src\\github\\grunt-prepr",
+    "dir": "/home/anton/src/github/grunt-prepr",
     "cmd": "grunt",
     "shortcut": "Ctrl-Shift-B"
   },
   {
     "name": "List all local checked out github projects",
-    "dir": "C:\\Users\\Anton\\Src\\github",
+    "dir": "/home/anton/src/github",
     "cmd": "dir",
     "shortcut": "Ctrl-Shift-L"
   }

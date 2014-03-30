@@ -37,9 +37,13 @@ define(function (require, exports) {
   InfoPanel.prototype.appendText = function(text) {
     var currentHtml = $(this.panelContentElement).html();
 
+    text = text.replace(/(?:\r\n|\n)/g, "<br/>");
     $(this.panelContentElement).html(currentHtml + "<div>" + text + "</div>");
 
-    //Scrolling to bottom
+    this.scrollToBottom();
+  };
+
+  InfoPanel.prototype.scrollToBottom = function() {
     this.panelElement[0].scrollTop = this.panelElement[0].scrollHeight;
   };
 
