@@ -3,7 +3,7 @@
     "title": "Command Line Shortcuts",
     "description": "Allows to execute commands via keyboard shortcuts: build, server re-start, fetch the latest sources, etc.",
     "homepage": "https://github.com/antivanov/Brackets-Command-Line-Shortcuts",
-    "version": "0.1",
+    "version": "0.1.0",
     "author": "Anton Ivanov <anton.al.ivanov@gmail.com> (https://github.com/antivanov)",
     "contributors": [
     ],
