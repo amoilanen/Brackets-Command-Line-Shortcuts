@@ -1,4 +1,4 @@
-Brackets-Command-Line-Shortcuts
+Command Line Shortcuts for Brackets
 ===============================
 
 Brackets IDE plugin. Adds support of shortcuts for execution of terminal commands right from the IDE.
