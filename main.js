@@ -6,10 +6,9 @@
 define(function (require, exports, module) {
   var ExtensionUtils = brackets.getModule("utils/ExtensionUtils");
 
-  var PANEL_AUTOHIDE_TIMEOUT_MS = 500;
-
   var InfoPanel = require("./InfoPanel").InfoPanel;
   var Configuration = require("./Configuration").Configuration;
+  var RunManager = require("./RunManager").RunManager;
   var Util = require("./Util").Util;
   var CommandLine = require("./CommandLine").CommandLine;
 
@@ -21,28 +20,7 @@ define(function (require, exports, module) {
   var commandLine = new CommandLine();
   commandLine.init();
 
-  var autohide = false;
-  var running = false;
-
-  function startCurrentRun(entry) {
-    running = true;
-    autohide = entry.autohide || false;
-  }
-
-  function isRunInProgress() {
-    return running;
-  }
-
-  function finishCurrentRun() {
-    if (autohide) {
-      setTimeout(function() {
-        panel.hide();
-        running = false;
-      }, PANEL_AUTOHIDE_TIMEOUT_MS);
-    } else {
-      running = false;
-    }
-  }
+  var runManager = new RunManager(panel);
 
   commandLine.addListeners({
     "progress": function(event, data) {
@@ -54,22 +32,18 @@ define(function (require, exports, module) {
     "finished": function(event) {
       panel.appendText("<div class='commandline-info'>FINISHED at " + Util.formatTime(new Date()) + "</div>");
       commandLine.closeConnection();
-      finishCurrentRun();
+      runManager.finish();
     }
   });
 
   configuration.read(function(entry) {
     return function() {
-
-      if (isRunInProgress()) {
-        return;
-      }
-      startCurrentRun(entry);
-
-      commandLine.run(entry.dir, entry.cmd, function onStart() {
-        panel.clear();
-        panel.show();
-        panel.appendText("<div class='commandline-info'>RUNNING '" + entry.cmd + "' in directory '" + entry.dir + "'</div>");
+      runManager.start(entry, function() {
+        commandLine.run(entry.dir, entry.cmd, function onStart() {
+          panel.clear();
+          panel.show();
+          panel.appendText("<div class='commandline-info'>RUNNING '" + entry.cmd + "' in directory '" + entry.dir + "'</div>");
+        });
       });
     };
   });
