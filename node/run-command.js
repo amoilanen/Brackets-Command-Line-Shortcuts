@@ -20,7 +20,17 @@ function emit(eventName, data) {
 }
 
 function runCmdHandler(dir, cmd) {
-  var process = spawnProcess(dir, cmd);
+  var process = null;
+
+  try {
+    process = spawnProcess(dir, cmd);
+  } catch (e) {
+    console.error("Error trying to execute command '" + cmd + "' in directory '" + dir + "'");
+    console.error(e);
+    emit("error", e.message);
+    emit("finished");
+    return;
+  }
 
   process.stdout.on('data', function (data) {
     emit("progress", data.toString('utf-8'));

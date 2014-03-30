@@ -8,7 +8,7 @@
   {
     "name": "List all local checked out github projects",
     "dir": "/home/anton/src/github",
-    "cmd": "dir",
+    "cmd": "ls",
     "shortcut": "Ctrl-Shift-L"
   }
 ]
