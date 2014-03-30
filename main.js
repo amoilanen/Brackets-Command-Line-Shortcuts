@@ -22,6 +22,27 @@ define(function (require, exports, module) {
   commandLine.init();
 
   var autohide = false;
+  var running = false;
+
+  function startCurrentRun(entry) {
+    running = true;
+    autohide = entry.autohide || false;
+  }
+
+  function isRunInProgress() {
+    return running;
+  }
+
+  function finishCurrentRun() {
+    if (autohide) {
+      setTimeout(function() {
+        panel.hide();
+        running = false;
+      }, PANEL_AUTOHIDE_TIMEOUT_MS);
+    } else {
+      running = false;
+    }
+  }
 
   commandLine.addListeners({
     "progress": function(event, data) {
@@ -33,17 +54,18 @@ define(function (require, exports, module) {
     "finished": function(event) {
       panel.appendText("<div class='commandline-info'>FINISHED at " + Util.formatTime(new Date()) + "</div>");
       commandLine.closeConnection();
-      if (autohide) {
-        setTimeout(function() {
-          panel.hide();
-        }, PANEL_AUTOHIDE_TIMEOUT_MS);
-      }
+      finishCurrentRun();
     }
   });
 
   configuration.read(function(entry) {
     return function() {
-      autohide = entry.autohide || false;
+
+      if (isRunInProgress()) {
+        return;
+      }
+      startCurrentRun(entry);
+
       commandLine.run(entry.dir, entry.cmd, function onStart() {
         panel.clear();
         panel.show();
