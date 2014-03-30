@@ -1,14 +1,15 @@
 [
   {
-    "name": "Build 'grunt-prepr' project",
-    "dir": "/home/anton/src/github/grunt-prepr",
-    "cmd": "grunt",
-    "shortcut": "Ctrl-Shift-B"
-  },
-  {
-    "name": "List all local checked out github projects",
-    "dir": "/home/anton/src/github",
+    "name": "List all files in current directory",
+    "dir": ".",
     "cmd": "ls",
     "shortcut": "Ctrl-Shift-L"
+  },
+  {
+    "name": "List all files in current directory and hide panel",
+    "dir": ".",
+    "cmd": "ls",
+    "shortcut": "Ctrl-Shift-K",
+    "autohide": true
   }
 ]

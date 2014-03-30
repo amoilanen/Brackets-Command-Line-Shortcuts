@@ -6,6 +6,8 @@
 define(function (require, exports, module) {
   var ExtensionUtils = brackets.getModule("utils/ExtensionUtils");
 
+  var PANEL_AUTOHIDE_TIMEOUT_MS = 500;
+
   var InfoPanel = require("./InfoPanel").InfoPanel;
   var Configuration = require("./Configuration").Configuration;
   var Util = require("./Util").Util;
@@ -19,6 +21,8 @@ define(function (require, exports, module) {
   var commandLine = new CommandLine();
   commandLine.init();
 
+  var autohide = false;
+
   commandLine.addListeners({
     "progress": function(event, data) {
       panel.appendText(Util.encodeSpecialCharacters(data.trim()));
@@ -29,11 +33,17 @@ define(function (require, exports, module) {
     "finished": function(event) {
       panel.appendText("<div class='commandline-info'>FINISHED at " + Util.formatTime(new Date()) + "</div>");
       commandLine.closeConnection();
+      if (autohide) {
+        setTimeout(function() {
+          panel.hide();
+        }, PANEL_AUTOHIDE_TIMEOUT_MS);
+      }
     }
   });
 
   configuration.read(function(entry) {
     return function() {
+      autohide = entry.autohide || false;
       commandLine.run(entry.dir, entry.cmd, function onStart() {
         panel.clear();
         panel.show();
