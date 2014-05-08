@@ -13,21 +13,21 @@ Example configuration
 [
   {
     "name": "Build whole project",
-    "dir": "/home/user/src/promises",
+    "dir": "$PROJECT_ROOT",
     "cmd": "grunt",
     "shortcut": "Ctrl-Shift-B",
     "autohide": true
   },
   {
     "name": "Run unit tests",
-    "dir": "/home/user/src/promises",
+    "dir": "$PROJECT_ROOT",
     "cmd": "grunt test",
     "shortcut": "Ctrl-Alt-B",
     "autohide": true
   },
   {
     "name": "Update the source",
-    "dir": "/home/user/src/promises",
+    "dir": "$PROJECT_ROOT",
     "cmd": "git pull",
     "shortcut": "Ctrl-Shift-P",
     "autohide": true
@@ -42,6 +42,8 @@ In this configuration two shortcuts are configured for building a local project 
 * `cmd` the actual command, required
 * `shortcut` the keyboard shortcut that will activate the command, required
 * `autohide` whether the feedback panel with the command output should be hidden automatically, optional
+
+`$PROJECT_ROOT` is special variable that denotes the root directory of the currently open project. This way when opening multiple projects in a sequence the shortcuts will be applicable for each project provided that the configured commands can be run in the root of each open project.
 
 In order for changes to be applied just reload Brackets.
 

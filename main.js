@@ -38,11 +38,13 @@ define(function (require, exports, module) {
 
   configuration.read(function(entry) {
     return function() {
+      var runtimeDir = configuration.runtimeDir(entry);
+
       runManager.start(entry, function() {
-        commandLine.run(entry.dir, entry.cmd, function onStart() {
+        commandLine.run(runtimeDir, entry.cmd, function onStart() {
           panel.clear();
           panel.show();
-          panel.appendText("<div class='commandline-info'>RUNNING '" + entry.cmd + "' in directory '" + entry.dir + "'</div>");
+          panel.appendText("<div class='commandline-info'>RUNNING '" + entry.cmd + "' in directory '" + runtimeDir + "'</div>");
         });
       });
     };

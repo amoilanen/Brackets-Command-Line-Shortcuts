@@ -16,6 +16,11 @@ define(function (require, exports) {
       return formatNumber(time.getHours()) +
         ":" + formatNumber(time.getMinutes()) +
         ":" + formatNumber(time.getSeconds());
+    },
+    stripTrailingPathSeparator: function(path) {
+      var lastCharacter = path[path.length - 1];
+
+      return ((lastCharacter == "/") || (lastCharacter == "\\")) ? path.slice(0, -1) : path;
     }
   };
 });

@@ -5,6 +5,9 @@ define(function (require, exports, module) {
   var CommandManager = brackets.getModule("command/CommandManager");
   var Menus = brackets.getModule("command/Menus");
   var KeyBindingManager = brackets.getModule("command/KeyBindingManager");
+  var ProjectManager = brackets.getModule('project/ProjectManager');
+
+  var Util = require("./Util").Util;
 
   var CONFIGURE_COMMAND_LINE_COMMAND_ID = "extension.commandline.configure.id";
 
@@ -28,6 +31,12 @@ define(function (require, exports, module) {
   addMenuItem();
 
   function Configuration() {
+  }
+
+  Configuration.prototype.runtimeDir = function(entry) {
+    var projectRoot = Util.stripTrailingPathSeparator(ProjectManager.getProjectRoot().fullPath);
+
+    return entry.dir.replace(/\$PROJECT_ROOT/g, projectRoot);
   }
 
   Configuration.prototype.read = function(entryCallback) {
