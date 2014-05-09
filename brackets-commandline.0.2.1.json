@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Build current project with Grunt",
+    "dir": "$PROJECT_ROOT",
+    "cmd": "grunt",
+    "shortcut": "Ctrl-Shift-B"
+  },
+  {
+    "name": "Update source from git",
+    "dir": "$PROJECT_ROOT",
+    "cmd": "git pull",
+    "shortcut": "Ctrl-Shift-G"
+  },
+  {
+    "name": "List all top level files in the project directory",
+    "dir": "$PROJECT_ROOT",
+    "cmd": "ls",
+    "shortcut": "Ctrl-Shift-L"
+  }
+]

@@ -17,7 +17,7 @@ define(function (require, exports, module) {
     CommandManager.register(
       "Command Line Shortcuts", 
       CONFIGURE_COMMAND_LINE_COMMAND_ID, function() {
-        var src = FileUtils.getNativeModuleDirectoryPath(module) + "/brackets-commandline.json";
+        var src = FileUtils.getNativeModuleDirectoryPath(module) + "/brackets-commandline.0.2.1.json";
 
       DocumentManager.getDocumentForPath(src).done(
         function (doc) {
@@ -40,7 +40,7 @@ define(function (require, exports, module) {
   }
 
   Configuration.prototype.read = function(entryCallback) {
-    var configuration = JSON.parse(require('text!brackets-commandline.json'));
+    var configuration = JSON.parse(require('text!brackets-commandline.0.2.1.json'));
 
     configuration.forEach(function(entry, idx) {
       var commandId = 'extension.commandline.run.' + idx;

@@ -7,8 +7,18 @@ var domainManager = null;
 
 function spawnProcess(dir, cmd) {
   return (process.platform.toLowerCase().indexOf("win") >= 0) 
-    ? spawn("cmd.exe", ["/c", cmd], {cwd: dir})
-    : spawn(cmd, [], { cwd: dir});
+    ? spawnWindowsProcess(dir, cmd)
+    : spawnLinuxProcess(dir, cmd);
+}
+
+function spawnWindowsProcess(dir, cmd) {
+  return spawn("cmd.exe", ["/c", cmd], {cwd: dir});
+}
+
+function spawnLinuxProcess(dir, cmd) {
+  var cmdParts = cmd.split(/\s+/);
+
+  return spawn(cmdParts[0], cmdParts.slice(1), {cwd: dir});
 }
 
 function emit(eventName, data) {
