@@ -34,15 +34,20 @@ define(function (require, exports, module) {
   }
 
   Configuration.prototype.expandVariables = function(entry) {
+    var self = this;
+    var selectedItem = ProjectManager.getSelectedItem();
+
+    var selectedItemPath = Util.stripTrailingPathSeparator(selectedItem._path);
+    var selectedItemDir = Util.stripTrailingPathSeparator(selectedItem._parentPath);
     var projectRoot = Util.stripTrailingPathSeparator(ProjectManager.getProjectRoot().fullPath);
 
-    return {
-      dir: entry.dir.replace(/\$PROJECT_ROOT/g, projectRoot),
-      cmd: entry.cmd,
-      name: entry.name,
-      shortcut: entry.shortcut,
-      autohide: entry.autohide
-    };
+    var expandedEntry = JSON.parse(JSON.stringify(entry));
+    ['dir', 'cmd'].forEach(function(fieldName) {
+      expandedEntry[fieldName] = entry[fieldName].replace(/\$PROJECT_ROOT/g, projectRoot)
+          .replace(/\$SELECTED_ITEM_DIR/g, selectedItemDir)
+          .replace(/\$SELECTED_ITEM/g, selectedItemPath);
+    });
+    return expandedEntry;
   }
 
   Configuration.prototype.read = function(entryCallback) {

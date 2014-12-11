@@ -31,11 +31,15 @@ Example configuration
     "cmd": "git pull",
     "shortcut": "Ctrl-Shift-P",
     "autohide": true
+  },
+  {
+    "name": "Display contents of the currently selected file",
+    "dir": "$SELECTED_ITEM_DIR",
+    "cmd": "cat $SELECTED_ITEM",
+    "shortcut": "Ctrl-Alt-C"
   }
 ]
 ```
-
-In this configuration two shortcuts are configured for building a local project and one for updating its sources from its Git repository.
 
 * `name` name of the configuration entry, optional
 * `dir` specifies the directory in which the command should be run, required
@@ -43,9 +47,17 @@ In this configuration two shortcuts are configured for building a local project 
 * `shortcut` the keyboard shortcut that will activate the command, required
 * `autohide` whether the feedback panel with the command output should be hidden automatically, optional
 
-`$PROJECT_ROOT` is special variable that denotes the root directory of the currently open project. This way when opening multiple projects in a sequence the shortcuts will be applicable for each project provided that the configured commands can be run in the root of each open project.
+`$PROJECT_ROOT` is a special variable that denotes the root directory of the currently open project. This way when opening multiple projects in a sequence the shortcuts will be applicable for each project provided that the configured commands can be run in the root of each open project.
 
 In order for changes to be applied just reload Brackets.
+
+### Supported variables
+
+The following variables can be used in the configuration as values for `dir` and `cmd`:
+
+* `$PROJECT_ROOT` root directory of the current project
+* `$SELECTED_ITEM` path to the file currently selected in the project
+* `$PROJECT_ITEM_DIR` path to the parent directory of the file currently selected in the project
 
 ## Use shortcuts
 

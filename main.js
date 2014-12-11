@@ -38,13 +38,13 @@ define(function (require, exports, module) {
 
   configuration.read(function(entry) {
     return function() {
-      entry = configuration.expandVariables(entry);
+      var expandedEntry = configuration.expandVariables(entry);
 
-      runManager.start(entry, function() {
-        commandLine.run(entry.dir, entry.cmd, function onStart() {
+      runManager.start(expandedEntry, function() {
+        commandLine.run(expandedEntry.dir, expandedEntry.cmd, function onStart() {
           panel.clear();
           panel.show();
-          panel.appendText("<div class='commandline-info'>RUNNING '" + entry.cmd + "' in directory '" + entry.dir + "'</div>");
+          panel.appendText("<div class='commandline-info'>RUNNING '" + expandedEntry.cmd + "' in directory '" + expandedEntry.dir + "'</div>");
         });
       });
     };
