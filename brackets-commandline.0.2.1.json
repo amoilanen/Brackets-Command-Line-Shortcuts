@@ -3,7 +3,7 @@
     "name": "Build current project with Grunt",
     "dir": "$PROJECT_ROOT",
     "cmd": "grunt",
-    "shortcut": "Ctrl-Shift-B"
+    "shortcut": "Ctrl-Alt-B"
   },
   {
     "name": "Update source from git",

@@ -33,10 +33,16 @@ define(function (require, exports, module) {
   function Configuration() {
   }
 
-  Configuration.prototype.runtimeDir = function(entry) {
+  Configuration.prototype.expandVariables = function(entry) {
     var projectRoot = Util.stripTrailingPathSeparator(ProjectManager.getProjectRoot().fullPath);
 
-    return entry.dir.replace(/\$PROJECT_ROOT/g, projectRoot);
+    return {
+      dir: entry.dir.replace(/\$PROJECT_ROOT/g, projectRoot),
+      cmd: entry.cmd,
+      name: entry.name,
+      shortcut: entry.shortcut,
+      autohide: entry.autohide
+    };
   }
 
   Configuration.prototype.read = function(entryCallback) {
