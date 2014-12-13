@@ -48,7 +48,7 @@ define(function (require, exports, module) {
           .replace(/\$SELECTED_ITEM/g, selectedItemPath);
     });
     return expandedEntry;
-  }
+  };
 
   Configuration.prototype.read = function(entryCallback) {
     var configuration = JSON.parse(require('text!brackets-commandline.0.2.1.json'));

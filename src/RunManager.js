@@ -15,7 +15,7 @@ define(function (require, exports, module) {
     this.running = true;
     this.autohide = configurationEntry.autohide || false;
 
-    runnable && runnable();
+    runnable && runnable(); //jshint ignore:line
   };
 
   RunManager.prototype.finish = function() {
@@ -28,7 +28,7 @@ define(function (require, exports, module) {
     }
     this.running = false;
     this.autohide = false;
-  }
+  };
 
   exports.RunManager = RunManager;
 });

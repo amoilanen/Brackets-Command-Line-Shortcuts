@@ -32,7 +32,7 @@ define(function (require, exports, module) {
         console.error("Cannot load domain", err);
       }).then(function() {
         self.nodeConnection.domains[domainName].runCmd(dir, cmd);
-        onStartCallback && onStartCallback();
+        onStartCallback && onStartCallback(); //jshint ignore:line
       });
     });
   };

@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "aivanov.command-line-shortcuts",
+  "title": "Command Line Shortcuts",
+  "description": "Allows to execute commands via keyboard shortcuts: build, server re-start, fetch the latest sources, etc. Supports paths relative to the current open project and absolute paths.",
+  "homepage": "https://github.com/antivanov/Brackets-Command-Line-Shortcuts",
+  "version": "0.2.1",
+  "author": "Anton Ivanov <anton.al.ivanov@gmail.com> (https://github.com/antivanov)",
+  "contributors": [],
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.8.10",
+    "gulp-jshint": "^1.9.0"
+  }
+}
