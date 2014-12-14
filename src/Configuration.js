@@ -1,3 +1,7 @@
+if (typeof define !== 'function') {
+  var define = require('amdefine')(module);
+}
+
 define(function (require, exports, module) {
 
   var DocumentManager = brackets.getModule("document/DocumentManager");
@@ -15,7 +19,7 @@ define(function (require, exports, module) {
     var menu = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU);
 
     CommandManager.register(
-      "Command Line Shortcuts", 
+      "Command Line Shortcuts",
       CONFIGURE_COMMAND_LINE_COMMAND_ID, function() {
         var src = FileUtils.getNativeModuleDirectoryPath(module) + "/brackets-commandline.0.2.1.json";
 
