@@ -38,6 +38,10 @@ define(function (require, exports, module) {
   }
 
   Configuration.prototype.expandVariables = function(entry) {
+    if (!entry) {
+      return entry;
+    }
+
     var self = this;
     var selectedItem = ProjectManager.getSelectedItem();
 
@@ -47,6 +51,10 @@ define(function (require, exports, module) {
 
     var expandedEntry = JSON.parse(JSON.stringify(entry));
     ['dir', 'cmd'].forEach(function(fieldName) {
+      if (typeof expandedEntry[fieldName] === 'undefined') {
+        return;
+      }
+
       expandedEntry[fieldName] = entry[fieldName].replace(/\$PROJECT_ROOT/g, projectRoot)
           .replace(/\$SELECTED_ITEM_DIR/g, selectedItemDir)
           .replace(/\$SELECTED_ITEM/g, selectedItemPath);

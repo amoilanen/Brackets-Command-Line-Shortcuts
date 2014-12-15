@@ -12,7 +12,6 @@ describe('Configuration', function() {
     configuration = new Configuration();
   });
 
-  //TODO: What if some variables are not defined? Test this
   describe('expand variables', function() {
     var selectedItem;
     var projectRoot;
@@ -56,14 +55,12 @@ describe('Configuration', function() {
       it('should expand project root', function() {
         projectRoot.fullPath = 'root';
         entry.dir = '$PROJECT_ROOT';
-
         configuration.expandVariables(entry).dir.should.be.exactly('root');
       });
 
       it('should expand current directory', function() {
         selectedItem._parentPath = 'mydir';
         entry.dir = '$SELECTED_ITEM_DIR';
-
         configuration.expandVariables(entry).dir.should.be.exactly('mydir');
       });
 
@@ -78,14 +75,12 @@ describe('Configuration', function() {
       it('should expand project root', function() {
         projectRoot.fullPath = 'root';
         entry.cmd = 'ls $PROJECT_ROOT';
-
         configuration.expandVariables(entry).cmd.should.be.exactly('ls root');
       });
 
       it('should expand current directory', function() {
         selectedItem._parentPath = 'mydir';
         entry.cmd = 'rm -rf $SELECTED_ITEM_DIR';
-
         configuration.expandVariables(entry).cmd.should.be.exactly('rm -rf mydir');
       });
 
@@ -93,6 +88,26 @@ describe('Configuration', function() {
         entry.cmd = 'echo test';
         configuration.expandVariables(entry).cmd.should.be.exactly('echo test');
       });
+    });
+
+    it('should not expand not defined variables', function() {
+      entry.cmd = 'cat $VARIABLE_1';
+      entry.dir = '$VARIABLE_2';
+
+      var expandedEntry = configuration.expandVariables(entry);
+
+      expandedEntry.cmd.should.be.exactly('cat $VARIABLE_1');
+      expandedEntry.dir.should.be.exactly('$VARIABLE_2');
+    });
+
+    it('should not raise errors if entry fields are not defined', function() {
+      entry = {};
+      configuration.expandVariables(entry).should.be.eql(entry);
+    });
+
+    it('should not raise errors if entry is null', function() {
+      entry = null;
+      (configuration.expandVariables(entry) === entry).should.be.equal(true);
     });
   });
 });
