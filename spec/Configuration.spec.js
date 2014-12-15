@@ -58,6 +58,19 @@ describe('Configuration', function() {
         expanded.dir.should.be.exactly('root');
       });
 
+      it('should expand current directory', function() {
+        selectedItem._parentPath = 'mydir';
+        var expanded = configuration.expandVariables({
+          dir: '$SELECTED_ITEM_DIR',
+          shortcut: 'shortcut',
+          cmd: 'cmd',
+          name: 'name',
+          autohide: false
+        });
+
+        expanded.dir.should.be.exactly('mydir');
+      });
+
       //TODO: Test case when nothing to expand
     });
   });
