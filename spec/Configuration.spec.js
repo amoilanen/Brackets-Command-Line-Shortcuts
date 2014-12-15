@@ -110,4 +110,73 @@ describe('Configuration', function() {
       (configuration.expandVariables(entry) === entry).should.be.equal(true);
     });
   });
+
+  describe('read configuration', function() {
+
+    var configurationObject;
+    var getConfigurationObjectStub;
+    var keyBindingManagerSpy;
+    var registerSpy;
+
+    beforeEach(function() {
+      var KeyBindingManager = brackets.getModule('command/KeyBindingManager');
+      var CommandManager = brackets.getModule('command/CommandManager');
+
+      configurationObject = [
+        {
+          name: 'name0',
+          cmd: 'cmd0',
+          dir: 'dir0',
+          shortcut: 'shortcut0',
+          autohide: 'autohide0'
+        },
+        {
+          name: 'name1',
+          cmd: 'cmd1',
+          dir: 'dir1',
+          shortcut: 'shortcut1',
+          autohide: 'autohide1'
+        },
+        {
+          name: 'name2',
+          cmd: 'cmd2',
+          dir: 'dir2',
+          shortcut: 'shortcut2',
+          autohide: 'autohide2'
+        }
+      ];
+      getConfigurationObjectStub = sinon.stub(configuration, 'getConfigurationObject', function() {
+        return configurationObject;
+      });
+      keyBindingManagerSpy = sinon.spy(KeyBindingManager, 'addBinding');
+      registerSpy = sinon.spy(CommandManager, 'register');
+    });
+
+    afterEach(function() {
+      getConfigurationObjectStub.restore();
+      keyBindingManagerSpy.restore();
+      registerSpy.restore();
+    });
+
+    it('should read full configuration', function() {
+      configuration.read(function(entry) {
+        var idx = configurationObject.indexOf(entry);
+
+        return 'callback.value.' + idx;
+      });
+
+      keyBindingManagerSpy.getCalls().map(function(call) { return call.args; }).should.be.eql([
+        ['extension.commandline.run.0', 'shortcut0'],
+        ['extension.commandline.run.1', 'shortcut1'],
+        ['extension.commandline.run.2', 'shortcut2']
+      ]);
+      registerSpy.getCalls().map(function(call) { return call.args; }).should.be.eql([
+        ['name0', 'extension.commandline.run.0', 'callback.value.0'],
+        ['name1', 'extension.commandline.run.1', 'callback.value.1'],
+        ['name2', 'extension.commandline.run.2', 'callback.value.2']
+      ]);
+    });
+
+    //TODO: Malformed configuration: some entries are incomplete, or contain extra fields
+  });
 });

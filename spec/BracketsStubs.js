@@ -15,7 +15,9 @@ var Menus = {
     };
   }
 };
-var KeyBindingManager = {};
+var KeyBindingManager = {
+  addBinding: function() {}
+};
 var ProjectManager = {
   getSelectedItem: function() {},
   getProjectRoot: function() {}

@@ -62,8 +62,12 @@ define(function (require, exports, module) {
     return expandedEntry;
   };
 
+  Configuration.prototype.getConfigurationObject = function() {
+    return JSON.parse(require('text!brackets-commandline.0.2.1.json'));
+  };
+
   Configuration.prototype.read = function(entryCallback) {
-    var configuration = JSON.parse(require('text!brackets-commandline.0.2.1.json'));
+    var configuration = this.getConfigurationObject();
 
     configuration.forEach(function(entry, idx) {
       var commandId = 'extension.commandline.run.' + idx;
