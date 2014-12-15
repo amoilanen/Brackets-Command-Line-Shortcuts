@@ -72,5 +72,27 @@ describe('Configuration', function() {
         configuration.expandVariables(entry).dir.should.be.exactly('dir');
       });
     });
+
+    describe('entry.cmd', function() {
+
+      it('should expand project root', function() {
+        projectRoot.fullPath = 'root';
+        entry.cmd = 'ls $PROJECT_ROOT';
+
+        configuration.expandVariables(entry).cmd.should.be.exactly('ls root');
+      });
+
+      it('should expand current directory', function() {
+        selectedItem._parentPath = 'mydir';
+        entry.cmd = 'rm -rf $SELECTED_ITEM_DIR';
+
+        configuration.expandVariables(entry).cmd.should.be.exactly('rm -rf mydir');
+      });
+
+      it('should not expand if no variables', function() {
+        entry.cmd = 'echo test';
+        configuration.expandVariables(entry).cmd.should.be.exactly('echo test');
+      });
+    });
   });
 });
