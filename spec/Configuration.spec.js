@@ -16,6 +16,7 @@ describe('Configuration', function() {
   describe('expand variables', function() {
     var selectedItem;
     var projectRoot;
+    var entry;
     var getSelectedItemStub;
     var getProjectRootStub;
 
@@ -26,6 +27,13 @@ describe('Configuration', function() {
       };
       projectRoot = {
         fullPath: ''
+      };
+      entry = {
+        dir: 'dir',
+        shortcut: 'shortcut',
+        cmd: 'cmd',
+        name: 'name',
+        autohide: false
       };
 
       var ProjectManager = brackets.getModule('project/ProjectManager');
@@ -47,31 +55,22 @@ describe('Configuration', function() {
 
       it('should expand project root', function() {
         projectRoot.fullPath = 'root';
-        var expanded = configuration.expandVariables({
-          dir: '$PROJECT_ROOT',
-          shortcut: 'shortcut',
-          cmd: 'cmd',
-          name: 'name',
-          autohide: false
-        });
+        entry.dir = '$PROJECT_ROOT';
 
-        expanded.dir.should.be.exactly('root');
+        configuration.expandVariables(entry).dir.should.be.exactly('root');
       });
 
       it('should expand current directory', function() {
         selectedItem._parentPath = 'mydir';
-        var expanded = configuration.expandVariables({
-          dir: '$SELECTED_ITEM_DIR',
-          shortcut: 'shortcut',
-          cmd: 'cmd',
-          name: 'name',
-          autohide: false
-        });
+        entry.dir = '$SELECTED_ITEM_DIR';
 
-        expanded.dir.should.be.exactly('mydir');
+        configuration.expandVariables(entry).dir.should.be.exactly('mydir');
       });
 
-      //TODO: Test case when nothing to expand
+      it('should not expand if no variables', function() {
+        entry.dir = 'dir';
+        configuration.expandVariables(entry).dir.should.be.exactly('dir');
+      });
     });
   });
 });
