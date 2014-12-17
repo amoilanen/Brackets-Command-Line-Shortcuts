@@ -71,6 +71,13 @@ define(function (require, exports, module) {
 
     configuration.forEach(function(entry, idx) {
       var commandId = 'extension.commandline.run.' + idx;
+      var wellFormedEntry = ['name', 'cmd', 'dir', 'shortcut'].every(function(fieldName) {
+        return entry[fieldName] && entry[fieldName].length > 0;
+      });
+
+      if (!wellFormedEntry) {
+        return;
+      }
 
       CommandManager.register(
         entry.name,

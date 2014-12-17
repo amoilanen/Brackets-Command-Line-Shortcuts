@@ -118,6 +118,12 @@ describe('Configuration', function() {
     var keyBindingManagerSpy;
     var registerSpy;
 
+    function readEntry(entry) {
+      var idx = configurationObject.indexOf(entry);
+
+      return 'callback.value.' + idx;
+    }
+
     beforeEach(function() {
       var KeyBindingManager = brackets.getModule('command/KeyBindingManager');
       var CommandManager = brackets.getModule('command/CommandManager');
@@ -159,11 +165,7 @@ describe('Configuration', function() {
     });
 
     it('should read full configuration', function() {
-      configuration.read(function(entry) {
-        var idx = configurationObject.indexOf(entry);
-
-        return 'callback.value.' + idx;
-      });
+      configuration.read(readEntry);
 
       keyBindingManagerSpy.getCalls().map(function(call) { return call.args; }).should.be.eql([
         ['extension.commandline.run.0', 'shortcut0'],
@@ -177,6 +179,90 @@ describe('Configuration', function() {
       ]);
     });
 
-    //TODO: Malformed configuration: some entries are incomplete, or contain extra fields
+    describe('malformed configuration entries', function() {
+
+      it('should ignore extra field', function() {
+        configurationObject = [
+          {
+            name: 'name0',
+            cmd: 'cmd0',
+            dir: 'dir0',
+            shortcut: 'shortcut0',
+            unknown_field: 'some_unknown_value'
+          }
+        ];
+
+        configuration.read(readEntry);
+
+        keyBindingManagerSpy.getCalls()
+          .map(function(call) { return call.args; }).should.be.eql([
+            ['extension.commandline.run.0', 'shortcut0']
+          ]);
+        registerSpy.getCalls()
+          .map(function(call) { return call.args; }).should.be.eql([
+            ['name0', 'extension.commandline.run.0', 'callback.value.0']
+          ]);
+      });
+
+      it('should ignore entry with missing name', function() {
+        configurationObject = [
+          {
+            cmd: 'cmd0',
+            dir: 'dir0',
+            shortcut: 'shortcut0'
+          }
+        ];
+
+        configuration.read(readEntry);
+
+        keyBindingManagerSpy.getCalls().length.should.be.equal(0);
+        registerSpy.getCalls().length.should.be.equal(0);
+      });
+
+      it('should ignore entry with missing cmd', function() {
+        configurationObject = [
+          {
+            name: 'name0',
+            dir: 'dir0',
+            shortcut: 'shortcut0'
+          }
+        ];
+
+        configuration.read(readEntry);
+
+        keyBindingManagerSpy.getCalls().length.should.be.equal(0);
+        registerSpy.getCalls().length.should.be.equal(0);
+      });
+
+      it('should ignore entry with missing dir', function() {
+        configurationObject = [
+          {
+            name: 'name0',
+            cmd: 'cmd0',
+            shortcut: 'shortcut0'
+          }
+        ];
+
+        configuration.read(readEntry);
+
+        keyBindingManagerSpy.getCalls().length.should.be.equal(0);
+        registerSpy.getCalls().length.should.be.equal(0);
+      });
+
+      it('should ignore entry with missing shortcut', function() {
+        configurationObject = [
+          {
+            name: 'name0',
+            cmd: 'cmd0',
+            dir: 'dir0'
+          }
+        ];
+
+        configuration.read(readEntry);
+
+        keyBindingManagerSpy.getCalls().length.should.be.equal(0);
+        registerSpy.getCalls().length.should.be.equal(0);
+      });
+    });
   });
 });
