@@ -1,3 +1,7 @@
+if (typeof define !== 'function') {
+  var define = require('amdefine')(module);
+}
+
 define(function (require, exports) {
 
   var PanelManager = brackets.getModule("view/PanelManager");
@@ -37,10 +41,14 @@ define(function (require, exports) {
   InfoPanel.prototype.appendText = function(text) {
     var currentHtml = $(this.panelContentElement).html();
 
-    text = text.replace(/(?:\r\n|\n)/g, "<br/>");
-    $(this.panelContentElement).html(currentHtml + "<div>" + text + "</div>");
+    $(this.panelContentElement).html(currentHtml + this.formatAsHtml(text));
 
     this.scrollToBottom();
+  };
+
+  InfoPanel.prototype.formatAsHtml = function(text) {
+    text = text.replace(/(?:\r\n|\n)/g, "<br/>");
+    return "<div>" + text + "</div>";
   };
 
   InfoPanel.prototype.scrollToBottom = function() {
