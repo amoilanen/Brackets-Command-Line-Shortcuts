@@ -22,6 +22,9 @@ var ProjectManager = {
   getSelectedItem: function() {},
   getProjectRoot: function() {}
 };
+var ExtensionUtils = {
+  getModulePath: function() {return '';}
+};
 
 var modules = {
   'document/DocumentManager': DocumentManager,
@@ -30,6 +33,7 @@ var modules = {
   'command/Menus': Menus,
   'command/KeyBindingManager': KeyBindingManager,
   'project/ProjectManager': ProjectManager,
+  'utils/ExtensionUtils': ExtensionUtils
 };
 
 brackets = {

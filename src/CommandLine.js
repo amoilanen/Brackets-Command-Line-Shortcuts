@@ -1,3 +1,7 @@
+if (typeof define !== 'function') {
+  var define = require('amdefine')(module);
+}
+
 define(function (require, exports, module) {
 
   var NodeConnection = brackets.getModule("utils/NodeConnection");
@@ -5,14 +9,6 @@ define(function (require, exports, module) {
 
   var domainName = "extension.commandline.node";
   var domainPath = ExtensionUtils.getModulePath(module) + "node/run-command.js";
-
-  function listenOn(connection, handlers) {
-    for (var eventName in handlers) {
-      if (handlers.hasOwnProperty(eventName)) {
-        $(connection).on(domainName + "." + eventName, handlers[eventName]);
-      }
-    }
-  }
 
   function CommandLine() {
     this.nodeConnection = null;
@@ -38,7 +34,15 @@ define(function (require, exports, module) {
   };
 
   CommandLine.prototype.addListeners = function(handlers) {
-    listenOn(this.nodeConnection, handlers);
+    for (var eventName in handlers) {
+      if (handlers.hasOwnProperty(eventName)) {
+        this._connectionListen(domainName + "." + eventName, handlers[eventName]);
+      }
+    }
+  };
+
+  CommandLine.prototype._connectionListen = function(eventName, handler) {
+    $(this.connection).on(eventName, handler);
   };
 
   CommandLine.prototype.closeConnection = function() {
