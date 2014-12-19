@@ -1,3 +1,7 @@
+if (typeof define !== 'function') {
+  var define = require('amdefine')(module);
+}
+
 define(function (require, exports, module) {
 
   var PANEL_AUTOHIDE_TIMEOUT_MS = 500;
