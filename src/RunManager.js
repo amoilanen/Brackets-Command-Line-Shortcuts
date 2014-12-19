@@ -12,9 +12,11 @@ define(function (require, exports, module) {
     this.running = false;
   }
 
+  RunManager.PANEL_AUTOHIDE_TIMEOUT_MS = PANEL_AUTOHIDE_TIMEOUT_MS;
+
   RunManager.prototype.start = function(configurationEntry, runnable) {
     if (this.running) {
-        return;
+      return;
     }
     this.running = true;
     this.autohide = configurationEntry.autohide || false;

@@ -7,13 +7,14 @@ var RunManager = require('../src/RunManager.js').RunManager;
 describe('RunManager', function() {
 
   var panel;
+  var configurationEntry;
   var runManager;
 
   beforeEach(function() {
     panel = {
-      hide: function() {
-      }
+      hide: function() {}
     };
+    configurationEntry = {};
     runManager = new RunManager(panel);
   });
 
@@ -31,47 +32,88 @@ describe('RunManager', function() {
 
   describe('start', function() {
 
+    var runnable;
+
+    beforeEach(function() {
+      runnable = sinon.spy();
+    });
+
     it('should run runnable', function() {
-      //TODO:
+      runManager.start(configurationEntry, runnable);
+      runnable.calledOnce.should.be.equal(true);
     });
 
-    xit('should remember autohide on start', function() {
-      //TODO:
+    it('should remember autohide on start', function() {
+      runManager.autohide.should.be.equal(false);
+      configurationEntry.autohide = true;
+      runManager.start(configurationEntry, runnable);
+      runManager.autohide.should.be.equal(true);
     });
 
-    xit('should reset autohide to "false" by default', function() {
-      //TODO:
+    it('should assume autohide to be "false" by default', function() {
+      runManager.autohide = true;
+      runManager.start(configurationEntry, runnable);
+      runManager.autohide.should.be.equal(false);
     });
 
-    xit('should not run next runnable if not yet finished', function() {
-      //TODO:
-    });
+    describe('sequence of starts', function() {
 
-    xit('should allow to run next runnable when finished', function() {
-      //TODO:
-    });
+      var otherRunnable;
 
-    xit('should allow to run next runnable when finished', function() {
-      //TODO:
+      beforeEach(function() {
+        otherRunnable = sinon.spy();
+      });
+
+      it('should not run next runnable if not yet finished', function() {
+        runManager.start(configurationEntry, runnable);
+        runManager.start(configurationEntry, otherRunnable);
+        runnable.calledOnce.should.be.equal(true);
+        otherRunnable.calledOnce.should.be.equal(false);
+      });
+
+      it('should allow to run next runnable when finished', function() {
+        runManager.start(configurationEntry, runnable);
+        runManager.finish();
+        runManager.start(configurationEntry, otherRunnable);
+        runnable.calledOnce.should.be.equal(true);
+        otherRunnable.calledOnce.should.be.equal(true);
+      });
     });
   });
 
   describe('finish', function() {
 
-    xit('should hide the panel if autohide is set', function() {
-      //TODO: Asynchronous
+    describe('panel hiding', function() {
+
+      it('should hide the panel if autohide is set', function(done) {
+        panel.hide = function() {
+          done();
+        };
+        runManager.autohide = true;
+        runManager.finish();
+      });
+
+      it('should not hide the panel if autohide is not set', function(done) {
+        panel.hide = sinon.spy();
+        runManager.autohide = false;
+        runManager.finish();
+        setTimeout(function() {
+          panel.hide.calledOnce.should.be.equal(false);
+          done();
+        }, RunManager.PANEL_AUTOHIDE_TIMEOUT_MS * 2);
+      });
     });
 
-    xit('should not hide the panel if autohide is not set', function() {
-      //TODO: Asynchronous
+    it('should reset autohide to "false"', function() {
+      runManager.autohide = true;
+      runManager.finish();
+      runManager.autohide.should.be.equal(false);
     });
 
-    xit('should reset autohide to "false"', function() {
-      //TODO:
-    });
-
-    xit('should reset running to "false"', function() {
-      //TODO:
+    it('should reset running to "false"', function() {
+      runManager.running = true;
+      runManager.finish();
+      runManager.running.should.be.equal(false);
     });
   });
 });
