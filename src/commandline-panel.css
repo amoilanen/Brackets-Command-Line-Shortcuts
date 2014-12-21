@@ -1,6 +1,6 @@
 .commandline-panel {
   position: relative;
-  background-color: #333;
+  background-color: #3c3f41; /* Same as Working Files */
   height: 200px;
   overflow-y: auto;
   -webkit-user-select: text;
@@ -8,19 +8,20 @@
 }
 
 .commandline-panel .commandline-info {
-  color: #CCCC00;
+  color: #cccc00;
   margin-bottom: 16px;
   margin-top: 16px;
 }
 
 .commandline-panel-content {
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 16px;
   padding: 10px;
 }
 
 .commandline-panel .close {
-  font-size: 32px;
+  color: #adb9bd; /* Same as Working Files */
+  font-size: 24px;
   padding: 10px;
   position: fixed;
   right: 48px;

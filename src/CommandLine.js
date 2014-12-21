@@ -36,7 +36,7 @@ define(function (require, exports, module) {
   CommandLine.prototype.addListeners = function(handlers) {
     for (var eventName in handlers) {
       if (handlers.hasOwnProperty(eventName)) {
-        this._connectionListen(domainName + "." + eventName, handlers[eventName]);
+        this._connectionListen(domainName + ":" + eventName, handlers[eventName]);
       }
     }
   };

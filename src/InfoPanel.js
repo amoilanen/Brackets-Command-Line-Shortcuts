@@ -4,7 +4,7 @@ if (typeof define !== 'function') {
 
 define(function (require, exports) {
 
-  var PanelManager = brackets.getModule("view/PanelManager");
+  var WorkspaceManager = brackets.getModule("view/WorkspaceManager");
 
   function InfoPanel() {
     this.panelElement = null;
@@ -18,7 +18,7 @@ define(function (require, exports) {
 
     this.panelElement = $(infoPanelHtml);
     this.panelContentElement = $('.commandline-panel-content', this.panelElement);
-    this.panel = PanelManager.createBottomPanel(
+    this.panel = WorkspaceManager.createBottomPanel(
       "brackets-commandline-infopanel",
       this.panelElement);
     $('.close', this.panelElement).on('click', function() {
