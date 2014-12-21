@@ -16,5 +16,11 @@
     "dir": "$PROJECT_ROOT",
     "cmd": "ls",
     "shortcut": "Ctrl-Shift-L"
+  },
+  {
+    "name": "Display contents of the currently selected file",
+    "dir": "$SELECTED_ITEM_DIR",
+    "cmd": "cat $SELECTED_ITEM",
+    "shortcut": "Ctrl-Alt-C"
   }
 ]
