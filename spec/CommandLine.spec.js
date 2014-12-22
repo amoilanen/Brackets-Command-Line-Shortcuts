@@ -34,9 +34,9 @@ describe('CommandLine', function() {
       'event3': handler3
     });
     connectionListenStub.getCalls().map(function(call) { return call.args; }).should.be.eql([
-      ['extension.commandline.node.event1', handler1],
-      ['extension.commandline.node.event2', handler2],
-      ['extension.commandline.node.event3', handler3]
+      ['event1', handler1],
+      ['event2', handler2],
+      ['event3', handler3]
     ]);
   });
 
@@ -64,9 +64,9 @@ describe('CommandLine', function() {
     });
 
     connectionListenStub.getCalls().map(function(call) { return call.args; }).should.be.eql([
-      ['extension.commandline.node.event1', handler1],
-      ['extension.commandline.node.event2', handler2],
-      ['extension.commandline.node.event3', handler3]
+      ['event1', handler1],
+      ['event2', handler2],
+      ['event3', handler3]
     ]);
   });
 

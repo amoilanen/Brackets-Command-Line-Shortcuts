@@ -1,7 +1,7 @@
 var util = require('util');
 var spawn = require('child_process').spawn;
 
-var DOMAIN_NAME = "extension.commandline.node";
+var DOMAIN_NAME = "extension.aivanov.commandline.shortcuts.node";
 
 var domainManager = null;
 
