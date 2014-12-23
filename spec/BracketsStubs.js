@@ -1,9 +1,9 @@
-var DocumentManager = {};
 var FileUtils = {};
 var CommandManager = {
   register: function() {
   }
 };
+var Commands = {};
 var Menus = {
   AppMenuBar: {
     EDIT_MENU: 0
@@ -27,9 +27,9 @@ var ExtensionUtils = {
 };
 
 var modules = {
-  'document/DocumentManager': DocumentManager,
   'file/FileUtils': FileUtils,
   'command/CommandManager': CommandManager,
+  'command/Commands': Commands,
   'command/Menus': Menus,
   'command/KeyBindingManager': KeyBindingManager,
   'project/ProjectManager': ProjectManager,

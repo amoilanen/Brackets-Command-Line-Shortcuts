@@ -4,7 +4,8 @@ if (typeof define !== 'function') {
 
 define(function (require, exports, module) {
 
-  var DocumentManager = brackets.getModule("document/DocumentManager");
+  var CommandManager = brackets.getModule('command/CommandManager');
+  var Commands = brackets.getModule('command/Commands');
   var FileUtils = brackets.getModule("file/FileUtils");
   var CommandManager = brackets.getModule("command/CommandManager");
   var Menus = brackets.getModule("command/Menus");
@@ -23,11 +24,7 @@ define(function (require, exports, module) {
       CONFIGURE_COMMAND_LINE_COMMAND_ID, function() {
         var src = FileUtils.getNativeModuleDirectoryPath(module) + "/brackets-commandline.0.2.2.json";
 
-      DocumentManager.getDocumentForPath(src).done(
-        function (doc) {
-          DocumentManager.setCurrentDocument(doc);
-        }
-      );
+        CommandManager.execute(Commands.CMD_OPEN, {fullPath: src});
     });
     menu.addMenuItem(CONFIGURE_COMMAND_LINE_COMMAND_ID, 'Ctrl-Shift-Q');
   }
