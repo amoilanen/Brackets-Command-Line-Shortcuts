@@ -1,6 +1,9 @@
+var package = require('./package.json');
 var gulp = require('gulp');
 var mocha = require('gulp-mocha');
 var jshint = require('gulp-jshint');
+var eventStream = require('event-stream');
+var zip = require('gulp-zip');
 
 gulp.task('lint', function(cb) {
   gulp.src(['./src/*.js', './spec/*.js'])
@@ -13,4 +16,13 @@ gulp.task('test', function(cb) {
     .pipe(mocha({reporter: 'spec'}));
 });
 
-gulp.task('default', ['lint', 'test']);
+gulp.task('package', function(cb) {
+  var mainSource = gulp.src(['src/*', 'src/node/*'], {base: "src"});
+  var packageJson = gulp.src('package.json');
+
+  return eventStream.concat(mainSource, packageJson)
+    .pipe(zip('BracketsCommandLineShortcuts.' + package.version + '.zip'))
+    .pipe(gulp.dest('dist'));
+});
+
+gulp.task('default', ['lint', 'test', 'package']);
