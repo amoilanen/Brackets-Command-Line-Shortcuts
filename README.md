@@ -57,7 +57,7 @@ The following variables can be used in the configuration as values for `dir` and
 
 * `$PROJECT_ROOT` root directory of the current project
 * `$SELECTED_ITEM` path to the file currently selected in the project
-* `$PROJECT_ITEM_DIR` path to the parent directory of the file currently selected in the project
+* `$SELECTED_ITEM_DIR` path to the parent directory of the file currently selected in the project
 
 ## Use shortcuts
 
