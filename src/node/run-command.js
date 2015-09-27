@@ -6,13 +6,43 @@ var DOMAIN_NAME = "extension.aivanov.commandline.shortcuts.node";
 var domainManager = null;
 
 function spawnProcess(dir, cmd) {
-  return (process.platform.toLowerCase().indexOf("win") >= 0) 
+  return (process.platform.toLowerCase().indexOf("win") >= 0)
     ? spawnWindowsProcess(dir, cmd)
     : spawnLinuxProcess(dir, cmd);
 }
 
+function cmd2List(cmd) {
+  // NodeJS use linux way to escape quote (" -> \") but this behavior will break cmd command in windows. So we have to parse command manualy.
+
+  // TODO: Support ^ escape character.
+
+  var cmdList = [], inQuotes = false;
+
+  cmd.split(/ +/).forEach(function(command){
+    if (inQuotes) {
+      if (command[command.length - 1] == '"') {
+        cmdList[cmdList.length - 1] += " " + command.substring(0, command.length - 1);
+        inQuotes = false;
+      } else {
+        cmdList[cmdList.length - 1] += " " + command;
+      }
+    } else {
+      if (command[0] == '"' && command[command.length - 1] == '"') {
+        cmdList.push(command.substring(1, command.length - 1));
+      } else if (command[0] == '"') {
+        cmdList.push(command.substring(1));
+        inQuotes = true;
+      } else {
+        cmdList.push(command);
+      }
+    }
+  });
+
+  return cmdList;
+}
+
 function spawnWindowsProcess(dir, cmd) {
-  return spawn("cmd.exe", ["/c", cmd], {cwd: dir});
+  return spawn("cmd.exe", ["/c"].concat(cmd2List(cmd)), {cwd: dir});
 }
 
 function spawnLinuxProcess(dir, cmd) {
