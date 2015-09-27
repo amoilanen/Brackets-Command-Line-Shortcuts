@@ -7,7 +7,7 @@ define(function (require, exports, module) {
   var CommandManager = brackets.getModule('command/CommandManager');
   var Commands = brackets.getModule('command/Commands');
   var FileUtils = brackets.getModule("file/FileUtils");
-  var CommandManager = brackets.getModule("command/CommandManager");
+//  var CommandManager = brackets.getModule("command/CommandManager");
   var Menus = brackets.getModule("command/Menus");
   var KeyBindingManager = brackets.getModule("command/KeyBindingManager");
   var ProjectManager = brackets.getModule('project/ProjectManager');
