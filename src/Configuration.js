@@ -19,22 +19,51 @@ define(function (require, exports, module) {
   // How to save a list of object into preference?
   var PreferencesManager = brackets.getModule("preferences/PreferencesManager");
   var prefs = PreferencesManager.getExtensionPrefs("command-line-shortcut");
+  var initial = [
+    {
+      "name": "Build current project with Grunt",
+      "dir": "$PROJECT_ROOT",
+      "cmd": "grunt",
+      "shortcut": "Ctrl-Alt-B"
+    },
+    {
+      "name": "Update source from git",
+      "dir": "$PROJECT_ROOT",
+      "cmd": "git pull",
+      "shortcut": "Ctrl-Shift-G"
+    },
+    {
+      "name": "List all top level files in the project directory",
+      "dir": "$PROJECT_ROOT",
+      "cmd": "ls",
+      "shortcut": "Ctrl-Shift-L"
+    },
+    {
+      "name": "Display contents of the currently selected file",
+      "dir": "$SELECTED_ITEM_DIR",
+      "cmd": "cat $SELECTED_ITEM",
+      "shortcut": "Ctrl-Alt-C"
+    }
+  ];
 
-  function addMenuItem() {
-    var menu = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU);
+  // Does array type break preference scope chain?
+  prefs.definePreference("commands", "array", initial);
 
-    CommandManager.register(
-      "Command Line Shortcuts",
-      CONFIGURE_COMMAND_LINE_COMMAND_ID, function() {
-        // TODO: Move config file out of extension folder
-        var src = FileUtils.getNativeModuleDirectoryPath(module) + "/brackets-commandline.0.2.2.json";
-
-        CommandManager.execute(Commands.CMD_OPEN, {fullPath: src});
-    });
-    menu.addMenuItem(CONFIGURE_COMMAND_LINE_COMMAND_ID, 'Ctrl-Shift-Q');
-  }
-
-  addMenuItem();
+//  function addMenuItem() {
+//    var menu = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU);
+//
+//    CommandManager.register(
+//      "Command Line Shortcuts",
+//      CONFIGURE_COMMAND_LINE_COMMAND_ID, function() {
+//        // TODO: Move config file out of extension folder
+//        var src = FileUtils.getNativeModuleDirectoryPath(module) + "/brackets-commandline.0.2.2.json";
+//
+//        CommandManager.execute(Commands.CMD_OPEN, {fullPath: src});
+//    });
+//    menu.addMenuItem(CONFIGURE_COMMAND_LINE_COMMAND_ID, 'Ctrl-Shift-Q');
+//  }
+//
+//  addMenuItem();
 
   function Configuration() {
   }
@@ -66,7 +95,8 @@ define(function (require, exports, module) {
 
   Configuration.prototype.getConfigurationObject = function() {
     // TODO: Move config file out of extension folder
-    return JSON.parse(require('text!brackets-commandline.0.2.2.json'));
+//    return JSON.parse(require('text!brackets-commandline.0.2.2.json'));
+    return prefs.get("commands");
   };
 
   Configuration.prototype.read = function(entryCallback) {
