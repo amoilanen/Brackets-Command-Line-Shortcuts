@@ -16,6 +16,10 @@ define(function (require, exports, module) {
 
   var CONFIGURE_COMMAND_LINE_COMMAND_ID = "extension.commandline.configure.id";
 
+  // How to save a list of object into preference?
+  var PreferencesManager = brackets.getModule("preferences/PreferencesManager");
+  var prefs = PreferencesManager.getExtensionPrefs("command-line-shortcut");
+
   function addMenuItem() {
     var menu = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU);
 
