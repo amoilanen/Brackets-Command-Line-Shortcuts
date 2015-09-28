@@ -47,7 +47,11 @@ define(function (require, exports, module) {
   ];
 
   // Does array type break preference scope chain?
-  prefs.definePreference("commands", "array", initial);
+  prefs.definePreference("commands", "general", undefined);
+
+  if (!prefs.get("commands")) {
+    prefs.set("commands", initial);
+  }
 
 //  function addMenuItem() {
 //    var menu = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU);
