@@ -17,7 +17,7 @@ define(function (require, exports, module) {
 
   // Use PreferencesManager to save commands.
   var PreferencesManager = brackets.getModule("preferences/PreferencesManager");
-  var prefs = PreferencesManager.getExtensionPrefs("command-line-shortcut");
+  var prefs = PreferencesManager.getExtensionPrefs("command-line-shortcuts");
   var initial = [
     {
       "name": "Build current project with Grunt",
