@@ -7,7 +7,6 @@ define(function (require, exports, module) {
   var CommandManager = brackets.getModule('command/CommandManager');
   var Commands = brackets.getModule('command/Commands');
   var FileUtils = brackets.getModule("file/FileUtils");
-//  var CommandManager = brackets.getModule("command/CommandManager");
   var Menus = brackets.getModule("command/Menus");
   var KeyBindingManager = brackets.getModule("command/KeyBindingManager");
   var ProjectManager = brackets.getModule('project/ProjectManager');
@@ -16,7 +15,7 @@ define(function (require, exports, module) {
 
   var CONFIGURE_COMMAND_LINE_COMMAND_ID = "extension.commandline.configure.id";
 
-  // How to save a list of object into preference?
+  // Use PreferencesManager to save commands.
   var PreferencesManager = brackets.getModule("preferences/PreferencesManager");
   var prefs = PreferencesManager.getExtensionPrefs("command-line-shortcut");
   var initial = [
@@ -46,28 +45,12 @@ define(function (require, exports, module) {
     }
   ];
 
-  // Does array type break preference scope chain?
+  // FIXME: Is "general" the correct type?
   prefs.definePreference("commands", "general", undefined);
 
   if (!prefs.get("commands")) {
     prefs.set("commands", initial);
   }
-
-//  function addMenuItem() {
-//    var menu = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU);
-//
-//    CommandManager.register(
-//      "Command Line Shortcuts",
-//      CONFIGURE_COMMAND_LINE_COMMAND_ID, function() {
-//        // TODO: Move config file out of extension folder
-//        var src = FileUtils.getNativeModuleDirectoryPath(module) + "/brackets-commandline.0.2.2.json";
-//
-//        CommandManager.execute(Commands.CMD_OPEN, {fullPath: src});
-//    });
-//    menu.addMenuItem(CONFIGURE_COMMAND_LINE_COMMAND_ID, 'Ctrl-Shift-Q');
-//  }
-//
-//  addMenuItem();
 
   function Configuration() {
   }
@@ -98,8 +81,6 @@ define(function (require, exports, module) {
   };
 
   Configuration.prototype.getConfigurationObject = function() {
-    // TODO: Move config file out of extension folder
-//    return JSON.parse(require('text!brackets-commandline.0.2.2.json'));
     return prefs.get("commands");
   };
 
