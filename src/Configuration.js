@@ -22,6 +22,7 @@ define(function (require, exports, module) {
     CommandManager.register(
       "Command Line Shortcuts",
       CONFIGURE_COMMAND_LINE_COMMAND_ID, function() {
+        // TODO: Move config file out of extension folder
         var src = FileUtils.getNativeModuleDirectoryPath(module) + "/brackets-commandline.0.2.2.json";
 
         CommandManager.execute(Commands.CMD_OPEN, {fullPath: src});
@@ -60,6 +61,7 @@ define(function (require, exports, module) {
   };
 
   Configuration.prototype.getConfigurationObject = function() {
+    // TODO: Move config file out of extension folder
     return JSON.parse(require('text!brackets-commandline.0.2.2.json'));
   };
 
