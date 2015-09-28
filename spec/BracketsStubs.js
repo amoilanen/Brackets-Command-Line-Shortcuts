@@ -25,6 +25,23 @@ var ProjectManager = {
 var ExtensionUtils = {
   getModulePath: function() {return '';}
 };
+var PreferencesManager = {
+  getExtensionPrefs: function(){
+    var storage = {};
+
+    return {
+      definePreference: function(key, type, value){
+        storage[key] = value;
+      },
+      get: function(key){
+        return storage[key];
+      },
+      set: function(key, value){
+        storage[key] = value;
+      }
+    };
+  }
+};
 
 var modules = {
   'file/FileUtils': FileUtils,
@@ -33,7 +50,8 @@ var modules = {
   'command/Menus': Menus,
   'command/KeyBindingManager': KeyBindingManager,
   'project/ProjectManager': ProjectManager,
-  'utils/ExtensionUtils': ExtensionUtils
+  'utils/ExtensionUtils': ExtensionUtils,
+  'preferences/PreferencesManager': PreferencesManager
 };
 
 brackets = {
