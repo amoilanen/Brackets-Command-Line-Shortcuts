@@ -1,0 +1,9 @@
+To consider to be implemented:
+
+1. It should be possible to update the configuration entry in preferences and use it immediately without reloading Brackets
+  -- If some command configuration entry is not correct this should be indicated (standard popup error window?)
+2. Add new variables to use for configuring commands:
+  -- $CLIPBOARD - current contents of the clipboard
+  -- $SELECTED_TEXT - text currently selected in the editor
+3. If autohide is 'true' for some command configuration automatically hide the panel only if there were no errors.
+4. Indicate errors in the console in bold and red.
