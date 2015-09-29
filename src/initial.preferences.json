@@ -15,7 +15,8 @@
     "name": "List all top level files in the project directory",
     "dir": "$PROJECT_ROOT",
     "cmd": "ls",
-    "shortcut": "Ctrl-Shift-L"
+    "shortcut": "Ctrl-Shift-L",
+    "autohide": true
   },
   {
     "name": "Display contents of the currently selected file",

@@ -114,7 +114,7 @@ describe('Configuration', function() {
   describe('read configuration', function() {
 
     var configurationObject;
-    var getConfigurationObjectStub;
+    var getConfiguredCommandsStub;
     var keyBindingManagerSpy;
     var registerSpy;
 
@@ -151,7 +151,7 @@ describe('Configuration', function() {
           autohide: 'autohide2'
         }
       ];
-      getConfigurationObjectStub = sinon.stub(configuration, 'getConfigurationObject', function() {
+      getConfiguredCommandsStub = sinon.stub(configuration, 'getConfiguredCommands', function() {
         return configurationObject;
       });
       keyBindingManagerSpy = sinon.spy(KeyBindingManager, 'addBinding');
@@ -159,7 +159,7 @@ describe('Configuration', function() {
     });
 
     afterEach(function() {
-      getConfigurationObjectStub.restore();
+      getConfiguredCommandsStub.restore();
       keyBindingManagerSpy.restore();
       registerSpy.restore();
     });

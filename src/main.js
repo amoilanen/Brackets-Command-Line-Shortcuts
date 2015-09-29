@@ -36,6 +36,7 @@ define(function (require, exports, module) {
     }
   });
 
+  configuration.init();
   configuration.read(function(entry) {
     return function() {
       var expandedEntry = configuration.expandVariables(entry);
