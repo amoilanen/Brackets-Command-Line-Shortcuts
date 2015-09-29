@@ -7,9 +7,11 @@
     "type": "git",
     "url": "https://github.com/antivanov/Brackets-Command-Line-Shortcuts.git"
   },
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": "Anton Ivanov <anton.al.ivanov@gmail.com> (https://github.com/antivanov)",
-  "contributors": [],
+  "contributors": [
+    "eight04 <eight04@gmail.com> (https://github.com/eight04)"
+  ],
   "license": "MIT",
   "devDependencies": {
     "amdefine": "^0.1.0",
