@@ -5,7 +5,7 @@ Brackets IDE plugin. Adds support of shortcuts for execution of terminal command
 
 ## Configure Shortcuts
 
-Activate the menu item `Edit -> Command Line Shortcuts` or use the keyboard shortcut `Ctrl-Shift-Q` to open the configuration of shortcuts for the plugin.
+Find the configuration under `command-line-shortcuts.commands` in your preferences file.
 
 Example configuration
 

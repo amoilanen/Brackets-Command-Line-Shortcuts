@@ -7,7 +7,6 @@ define(function (require, exports, module) {
   var CommandManager = brackets.getModule('command/CommandManager');
   var Commands = brackets.getModule('command/Commands');
   var FileUtils = brackets.getModule("file/FileUtils");
-  var CommandManager = brackets.getModule("command/CommandManager");
   var Menus = brackets.getModule("command/Menus");
   var KeyBindingManager = brackets.getModule("command/KeyBindingManager");
   var ProjectManager = brackets.getModule('project/ProjectManager');
@@ -16,20 +15,42 @@ define(function (require, exports, module) {
 
   var CONFIGURE_COMMAND_LINE_COMMAND_ID = "extension.commandline.configure.id";
 
-  function addMenuItem() {
-    var menu = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU);
+  // Use PreferencesManager to save commands.
+  var PreferencesManager = brackets.getModule("preferences/PreferencesManager");
+  var prefs = PreferencesManager.getExtensionPrefs("command-line-shortcuts");
+  var initial = [
+    {
+      "name": "Build current project with Grunt",
+      "dir": "$PROJECT_ROOT",
+      "cmd": "grunt",
+      "shortcut": "Ctrl-Alt-B"
+    },
+    {
+      "name": "Update source from git",
+      "dir": "$PROJECT_ROOT",
+      "cmd": "git pull",
+      "shortcut": "Ctrl-Shift-G"
+    },
+    {
+      "name": "List all top level files in the project directory",
+      "dir": "$PROJECT_ROOT",
+      "cmd": "ls",
+      "shortcut": "Ctrl-Shift-L"
+    },
+    {
+      "name": "Display contents of the currently selected file",
+      "dir": "$SELECTED_ITEM_DIR",
+      "cmd": "cat $SELECTED_ITEM",
+      "shortcut": "Ctrl-Alt-C"
+    }
+  ];
 
-    CommandManager.register(
-      "Command Line Shortcuts",
-      CONFIGURE_COMMAND_LINE_COMMAND_ID, function() {
-        var src = FileUtils.getNativeModuleDirectoryPath(module) + "/brackets-commandline.0.2.2.json";
+  // FIXME: Is "general" the correct type?
+  prefs.definePreference("commands", "general", undefined);
 
-        CommandManager.execute(Commands.CMD_OPEN, {fullPath: src});
-    });
-    menu.addMenuItem(CONFIGURE_COMMAND_LINE_COMMAND_ID, 'Ctrl-Shift-Q');
+  if (!prefs.get("commands")) {
+    prefs.set("commands", initial);
   }
-
-  addMenuItem();
 
   function Configuration() {
   }
@@ -60,7 +81,7 @@ define(function (require, exports, module) {
   };
 
   Configuration.prototype.getConfigurationObject = function() {
-    return JSON.parse(require('text!brackets-commandline.0.2.2.json'));
+    return prefs.get("commands");
   };
 
   Configuration.prototype.read = function(entryCallback) {
