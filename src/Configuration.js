@@ -22,9 +22,7 @@ define(function (require, exports, module) {
 
   Configuration.prototype.init = function() {
     this.preferences = PreferencesManager.getExtensionPrefs("command-line-shortcuts");
-
-    // FIXME: Is "general" the correct type?
-    this.preferences.definePreference("commands", "general", undefined);
+    this.preferences.definePreference("commands", "general");
     if (!this.preferences.get("commands")) {
       this.preferences.set("commands", JSON.parse(require('text!initial.preferences.json')));
     }
