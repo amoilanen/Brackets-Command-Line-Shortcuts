@@ -180,6 +180,23 @@ describe('Configuration', function() {
       ]);
     });
 
+    it('should use $PROJECT_ROOT as directory if no directory is specified', function() {
+      var readEntrySuccessfully = false;
+      configurationObject = [
+        {
+          name: 'name0',
+          cmd: 'cmd0',
+          shortcut: 'shortcut0'
+        }
+      ];
+
+      configuration.read(function(entry) {
+        readEntrySuccessfully = true;
+        entry.dir.should.be.eql('$PROJECT_ROOT');
+      });
+      readEntrySuccessfully.should.be.true;
+    });
+
     describe('malformed configuration entries', function() {
 
       var warn;
@@ -254,7 +271,7 @@ describe('Configuration', function() {
         ]);
       });
 
-      it('should ignore entry with missing dir', function() {
+      it('should process entry with missing dir', function() {
         configurationObject = [
           {
             name: 'name0',
@@ -265,11 +282,9 @@ describe('Configuration', function() {
 
         configuration.read(readEntry);
 
-        keyBindingManagerSpy.getCalls().length.should.be.equal(0);
-        registerSpy.getCalls().length.should.be.equal(0);
-        warn.getCalls().map(function(call) {return call.args; }).should.be.eql([
-          ['Missing configuration field "dir", ignoring entry:', Util.toPrettyString(configurationObject[0])]
-        ]);
+        keyBindingManagerSpy.getCalls().length.should.be.equal(1);
+        registerSpy.getCalls().length.should.be.equal(1);
+        warn.getCalls().length.should.be.equal(0);
       });
 
       it('should ignore entry with missing shortcut', function() {

@@ -17,7 +17,8 @@ define(function (require, exports, module) {
   var CONFIGURE_COMMAND_LINE_COMMAND_ID = "extension.commandline.configure.id";
 
   var ALLOWED_FIELDS = ['name', 'cmd', 'dir', 'shortcut'];
-  var MANDATORY_FIELDS = ['name', 'cmd', 'dir', 'shortcut'];
+  var MANDATORY_FIELDS = ['name', 'cmd', 'shortcut'];
+  var DEFAULT_DIRECTORY = '$PROJECT_ROOT';
 
   function Configuration() {
     this.preferences = null;
@@ -84,6 +85,10 @@ define(function (require, exports, module) {
 
       if (!isWellFormedEntry) {
         return;
+      }
+
+      if (!entry.dir) {
+        entry.dir = DEFAULT_DIRECTORY;
       }
 
       CommandManager.register(
