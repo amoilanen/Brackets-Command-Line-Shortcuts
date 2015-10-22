@@ -7,3 +7,4 @@ To consider to be implemented:
   -- $SELECTED_TEXT - text currently selected in the editor
 3. If autohide is 'true' for some command configuration automatically hide the panel only if there were no errors.
 4. Indicate errors in the console in bold and red.
+5. Log messages to the console should be indicating that they are from this plugin
