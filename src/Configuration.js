@@ -17,7 +17,7 @@ define(function (require, exports, module) {
   var CONFIGURE_COMMAND_LINE_COMMAND_ID = "extension.commandline.configure.id";
   var COMMAND_ID_PREFIX = 'extension.commandline.run.';
 
-  var ALLOWED_FIELDS = ['name', 'cmd', 'dir', 'shortcut'];
+  var ALLOWED_FIELDS = ['name', 'cmd', 'dir', 'shortcut', 'autohide'];
   var MANDATORY_FIELDS = ['name', 'cmd', 'shortcut'];
   var DEFAULT_DIRECTORY = '$PROJECT_ROOT';
 
