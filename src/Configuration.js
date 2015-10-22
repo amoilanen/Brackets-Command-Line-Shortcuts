@@ -15,6 +15,7 @@ define(function (require, exports, module) {
   var Util = require("./Util").Util;
 
   var CONFIGURE_COMMAND_LINE_COMMAND_ID = "extension.commandline.configure.id";
+  var COMMAND_ID_PREFIX = 'extension.commandline.run.';
 
   var ALLOWED_FIELDS = ['name', 'cmd', 'dir', 'shortcut'];
   var MANDATORY_FIELDS = ['name', 'cmd', 'shortcut'];
@@ -61,36 +62,45 @@ define(function (require, exports, module) {
     return this.preferences.get("commands");
   };
 
+  Configuration.prototype._checkForUnknownFields = function(entry) {
+    Object.keys(entry).forEach(function(entryFieldName) {
+      if (ALLOWED_FIELDS.indexOf(entryFieldName) < 0) {
+        console.warn('Ignoring unknown configuration field "' + entryFieldName + '":',
+                     Util.toPrettyString(entry));
+      }
+    });
+  };
+
+  Configuration.prototype._isWellFormed = function(entry) {
+    return MANDATORY_FIELDS.every(function(mandatoryFieldName) {
+      var fieldValue = entry[mandatoryFieldName];
+      var isFieldWellFormed = fieldValue && (fieldValue.length > 0);
+
+      if (!isFieldWellFormed) {
+        console.warn('Missing configuration field "' + mandatoryFieldName +  '", ignoring entry:',
+                     Util.toPrettyString(entry));
+      }
+      return isFieldWellFormed;
+    });
+  };
+
+  Configuration.prototype._setDefaultFields = function(entry) {
+    if (!entry.dir) {
+      entry.dir = DEFAULT_DIRECTORY;
+    }
+  };
+
   Configuration.prototype.read = function(entryCallback) {
+    var self = this;
+
     this.getConfiguredCommands().forEach(function(entry, idx) {
-      var commandId = 'extension.commandline.run.' + idx;
+      var commandId = COMMAND_ID_PREFIX + idx;
 
-      Object.keys(entry).forEach(function(entryFieldName) {
-        if (ALLOWED_FIELDS.indexOf(entryFieldName) < 0) {
-          console.warn('Ignoring unknown configuration field "' + entryFieldName + '":',
-                       Util.toPrettyString(entry));
-        }
-      });
-
-      var isWellFormedEntry = MANDATORY_FIELDS.every(function(mandatoryFieldName) {
-        var fieldValue = entry[mandatoryFieldName];
-        var isFieldWellFormed = fieldValue && (fieldValue.length > 0);
-
-        if (!isFieldWellFormed) {
-          console.warn('Missing configuration field "' + mandatoryFieldName +  '", ignoring entry:',
-                       Util.toPrettyString(entry));
-        }
-        return isFieldWellFormed;
-      });
-
-      if (!isWellFormedEntry) {
+      self._checkForUnknownFields(entry);
+      if (!self._isWellFormed(entry)) {
         return;
       }
-
-      if (!entry.dir) {
-        entry.dir = DEFAULT_DIRECTORY;
-      }
-
+      self._setDefaultFields(entry);
       CommandManager.register(
         entry.name,
         commandId,
