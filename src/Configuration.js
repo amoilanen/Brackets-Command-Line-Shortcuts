@@ -16,6 +16,9 @@ define(function (require, exports, module) {
 
   var CONFIGURE_COMMAND_LINE_COMMAND_ID = "extension.commandline.configure.id";
 
+  var ALLOWED_FIELDS = ['name', 'cmd', 'dir', 'shortcut'];
+  var MANDATORY_FIELDS = ['name', 'cmd', 'dir', 'shortcut'];
+
   function Configuration() {
     this.preferences = null;
   }
@@ -58,15 +61,28 @@ define(function (require, exports, module) {
   };
 
   Configuration.prototype.read = function(entryCallback) {
-    var configuredCommands = this.getConfiguredCommands();
-
-    configuredCommands.forEach(function(entry, idx) {
+    this.getConfiguredCommands().forEach(function(entry, idx) {
       var commandId = 'extension.commandline.run.' + idx;
-      var wellFormedEntry = ['name', 'cmd', 'dir', 'shortcut'].every(function(fieldName) {
-        return entry[fieldName] && entry[fieldName].length > 0;
+
+      Object.keys(entry).forEach(function(entryFieldName) {
+        if (ALLOWED_FIELDS.indexOf(entryFieldName) < 0) {
+          console.warn('Ignoring unknown configuration field "' + entryFieldName + '":',
+                       Util.toPrettyString(entry));
+        }
       });
 
-      if (!wellFormedEntry) {
+      var isWellFormedEntry = MANDATORY_FIELDS.every(function(mandatoryFieldName) {
+        var fieldValue = entry[mandatoryFieldName];
+        var isFieldWellFormed = fieldValue && (fieldValue.length > 0);
+
+        if (!isFieldWellFormed) {
+          console.warn('Missing configuration field "' + mandatoryFieldName +  '", ignoring entry:',
+                       Util.toPrettyString(entry));
+        }
+        return isFieldWellFormed;
+      });
+
+      if (!isWellFormedEntry) {
         return;
       }
 

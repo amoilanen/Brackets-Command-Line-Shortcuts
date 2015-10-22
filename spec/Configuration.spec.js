@@ -2,6 +2,7 @@ require('./BracketsStubs.js');
 require('should');
 var sinon = require('sinon');
 
+var Util = require('../src/Util.js').Util;
 var Configuration = require('../src/Configuration.js').Configuration;
 
 describe('Configuration', function() {
@@ -181,6 +182,16 @@ describe('Configuration', function() {
 
     describe('malformed configuration entries', function() {
 
+      var warn;
+
+      beforeEach(function() {
+         warn = sinon.stub(console, 'warn');
+      });
+
+      afterEach(function() {
+        console.warn.restore();
+      });
+
       it('should ignore extra field', function() {
         configurationObject = [
           {
@@ -202,6 +213,9 @@ describe('Configuration', function() {
           .map(function(call) { return call.args; }).should.be.eql([
             ['name0', 'extension.commandline.run.0', 'callback.value.0']
           ]);
+        warn.getCalls().map(function(call) {return call.args; }).should.be.eql([
+          ['Ignoring unknown configuration field "unknown_field":', Util.toPrettyString(configurationObject[0])]
+        ]);
       });
 
       it('should ignore entry with missing name', function() {
@@ -217,6 +231,9 @@ describe('Configuration', function() {
 
         keyBindingManagerSpy.getCalls().length.should.be.equal(0);
         registerSpy.getCalls().length.should.be.equal(0);
+        warn.getCalls().map(function(call) {return call.args; }).should.be.eql([
+          ['Missing configuration field "name", ignoring entry:', Util.toPrettyString(configurationObject[0])]
+        ]);
       });
 
       it('should ignore entry with missing cmd', function() {
@@ -232,6 +249,9 @@ describe('Configuration', function() {
 
         keyBindingManagerSpy.getCalls().length.should.be.equal(0);
         registerSpy.getCalls().length.should.be.equal(0);
+        warn.getCalls().map(function(call) {return call.args; }).should.be.eql([
+          ['Missing configuration field "cmd", ignoring entry:', Util.toPrettyString(configurationObject[0])]
+        ]);
       });
 
       it('should ignore entry with missing dir', function() {
@@ -247,6 +267,9 @@ describe('Configuration', function() {
 
         keyBindingManagerSpy.getCalls().length.should.be.equal(0);
         registerSpy.getCalls().length.should.be.equal(0);
+        warn.getCalls().map(function(call) {return call.args; }).should.be.eql([
+          ['Missing configuration field "dir", ignoring entry:', Util.toPrettyString(configurationObject[0])]
+        ]);
       });
 
       it('should ignore entry with missing shortcut', function() {
@@ -262,6 +285,9 @@ describe('Configuration', function() {
 
         keyBindingManagerSpy.getCalls().length.should.be.equal(0);
         registerSpy.getCalls().length.should.be.equal(0);
+        warn.getCalls().map(function(call) {return call.args; }).should.be.eql([
+          ['Missing configuration field "shortcut", ignoring entry:', Util.toPrettyString(configurationObject[0])]
+        ]);
       });
     });
   });

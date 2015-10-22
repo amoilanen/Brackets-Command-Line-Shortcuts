@@ -25,6 +25,9 @@ define(function (require, exports) {
       var lastCharacter = path[path.length - 1];
 
       return ((lastCharacter == "/") || (lastCharacter == "\\")) ? path.slice(0, -1) : path;
+    },
+    toPrettyString: function(obj) {
+      return JSON.stringify(obj, null, 2)
     }
   };
 });
