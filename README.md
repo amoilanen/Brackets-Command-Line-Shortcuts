@@ -13,7 +13,6 @@ Example configuration
 [
   {
     "name": "Build whole project",
-    "dir": "$PROJECT_ROOT",
     "cmd": "grunt",
     "shortcut": "Ctrl-Shift-B",
     "autohide": true
@@ -48,6 +47,8 @@ Example configuration
 * `autohide` whether the feedback panel with the command output should be hidden automatically, optional
 
 `$PROJECT_ROOT` is a special variable that denotes the root directory of the currently open project. This way when opening multiple projects in a sequence the shortcuts will be applicable for each project provided that the configured commands can be run in the root of each open project.
+
+If no `dir` field is specified it is assumed to be `$PROJECT_ROOT`.
 
 In order for changes to be applied just reload Brackets.
 

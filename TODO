@@ -8,3 +8,5 @@ To consider to be implemented:
 3. If autohide is 'true' for some command configuration automatically hide the panel only if there were no errors.
 4. Indicate errors in the console in bold and red.
 5. Log messages to the console should be indicating that they are from this plugin
+6. Output panel visual adjustments: make the window with results resizable so that all the content can be shown, increase the default time period for which output panel is shown, when hiding the output panel fade it out gradually
+7. Validate the key combinations being assigned whether they are available when configuration is saved. Improve error handling: show configuration error messages already when the plugin reads it configuration or when configuration is saved.
